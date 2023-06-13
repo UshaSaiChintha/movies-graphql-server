@@ -13,12 +13,17 @@ const typeDefs = gql`
         poster: String!
     }
 
+    type Genre {
+        name: String!
+    }
+
     input MovieFilter {
         genre: String
     }
 
     type Query {
         movies(filter: MovieFilter): [Movie]
+        genres: [Genre]
     }
 `
 const getAllMovies = (filter) => {
@@ -38,7 +43,8 @@ const getAllMovies = (filter) => {
 
 const resolvers = {
     Query: {
-        movies: (_, { filter }) => getAllMovies(filter)
+        movies: (_, { filter }) => getAllMovies(filter),
+        genres: () => genres  
     }
 }
 
