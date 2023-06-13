@@ -78,7 +78,15 @@ const resolvers = {
     }
 }
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    introspection: true,
+    playground: true
+})
+
+// Heroku application runs on port 8080 instead of 4000
+const PORT = process.env.PORT || 8080
 
 server.listen().then(({url}) => {
     console.log(`Server is running at ${url}`)
