@@ -17,6 +17,14 @@ const typeDefs = gql`
         name: String!
     }
 
+    input MovieInput {
+        id: ID
+        title: String!
+        year: String!
+        genre: String!
+        poster: String!
+    }
+
     input MovieFilter {
         genre: String
     }
@@ -24,6 +32,10 @@ const typeDefs = gql`
     type Query {
         movies(filter: MovieFilter): [Movie]
         genres: [Genre]
+    }
+
+    type Mutation {
+        addMovie(movie: MovieInput): Movie
     }
 `
 const getAllMovies = (filter) => {
@@ -41,10 +53,19 @@ const getAllMovies = (filter) => {
 
 }
 
+const addMovie = (movie) => {
+    movie.id = movies.length + 1
+    movies.push(movie)
+    return movie
+}
+
 const resolvers = {
     Query: {
         movies: (_, { filter }) => getAllMovies(filter),
-        genres: () => genres  
+        genres: () => genres
+    },
+    Mutation: {
+        addMovie: (_, { movie }) => addMovie(movie)
     }
 }
 
