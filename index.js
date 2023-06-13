@@ -55,7 +55,7 @@ const getAllMovies = (filter) => {
 }
 
 const addMovie = (movie) => {
-    movie.id = movies.length + 1
+    movie.id = Math.max.apply(Math, movies.map(movie => movie.id)) + 1
     movies.push(movie)
     return movie
 }
