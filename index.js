@@ -36,6 +36,7 @@ const typeDefs = gql`
 
     type Mutation {
         addMovie(movie: MovieInput): Movie
+        deleteMovie(id: ID!): Movie
     }
 `
 const getAllMovies = (filter) => {
@@ -59,13 +60,21 @@ const addMovie = (movie) => {
     return movie
 }
 
+const deleteMovie = (movieId) => {
+    
+    const movieToDelete = movies.find((movie) => movie.id == movieId)
+    movies = movies.filter((movie) => movie.id != movieId)
+    return movieToDelete
+}
+
 const resolvers = {
     Query: {
         movies: (_, { filter }) => getAllMovies(filter),
         genres: () => genres
     },
     Mutation: {
-        addMovie: (_, { movie }) => addMovie(movie)
+        addMovie: (_, { movie }) => addMovie(movie),
+        deleteMovie: (_, { id }) => deleteMovie(id)
     }
 }
 
